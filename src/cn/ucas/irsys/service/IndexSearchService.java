@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import cn.ucas.irsys.dao.ArticleIndexDao;
 import cn.ucas.irsys.domain.QueryResult;
@@ -23,29 +24,43 @@ public class IndexSearchService extends HttpServlet {
 		
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf8");
-		
 		String queryString = request.getParameter("queryString");
+		String sortOp = request.getParameter("sortOp");
+		String curSPage = request.getParameter("curPage");
 		
-		
-		if(request.getMethod() == "GET") {
-			queryString = new String(queryString.getBytes("iso-8859-1"), "utf-8");
+		HttpSession session = request.getSession(true);
+		if(request.getMethod() == "POST") {
+			session.removeAttribute("sortOp");
+			if(queryString!=null)
+				session.setAttribute("queryString", queryString);
+			
 		}
 		
-//		if(queryString == null) {
-//			request.getRequestDispatcher(request.getContextPath()).forward(request, response);
+		if(request.getMethod() == "GET") {
+			queryString = (String)session.getAttribute("queryString");
+			System.out.println("===========  " + queryString);
+			if(sortOp!=null) {
+				sortOp = new String(sortOp.getBytes("iso-8859-1"),"utf-8");
+				session.setAttribute("sortOp", sortOp);
+			}else {
+				sortOp = (String)session.getAttribute("sortOp");
+			}
+//			queryString = new String(queryString.getBytes("iso-8859-1"), "utf-8");
+//			sortOp = new String(sortOp.getBytes("iso-8859-1"),"utf-8");
 //			
-//		}
+		}
 		
-		String curSPage = request.getParameter("curPage");
+		
+		
 		int curPage = 1;
 		if(curSPage!=null) {
 			curPage = Integer.parseInt(curSPage);
 		}
 		
-		if(queryString.length() <0 || queryString.equals("") || queryString ==  null) {
+		if(null == queryString  || queryString.length() <0 || queryString.equals("") ) {
 			request.getRequestDispatcher("./index.jsp").forward(request, response);
 		}else {
-			QueryResult queryResult = aDao.search(queryString, curPage, GetGProperties.pageSize);
+			QueryResult queryResult = aDao.search(queryString, curPage, GetGProperties.pageSize,sortOp);
 			request.setAttribute("queryString", queryString);
 			request.setAttribute("ars", queryResult);
 			request.getRequestDispatcher("./WEB-INF/showIndex.jsp").forward(request, response);

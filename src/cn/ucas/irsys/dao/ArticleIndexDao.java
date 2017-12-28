@@ -11,6 +11,8 @@ import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.highlight.Formatter;
 import org.apache.lucene.search.highlight.Highlighter;
@@ -29,7 +31,7 @@ import cn.ucas.irsys.util.LuceneUtil;
 
 public class ArticleIndexDao {
 	
-	public QueryResult search(String queryString,int curPage,int pageSize) {
+	public QueryResult search(String queryString,int curPage,int pageSize,String sortOp) {
 		IndexSearcher indexSearcher = null;
 		List<Article> lists = new ArrayList<Article>();
 		try {
@@ -45,7 +47,21 @@ public class ArticleIndexDao {
 			}
 			int curPageSize = (curPage - 1) * pageSize;
 			int sumSize = curPageSize + pageSize;  // 要返回的记录数
-			TopDocs topDocs = indexSearcher.search(query, sumSize);
+			Sort sort = null;
+			if("_time".equals(sortOp)) {
+				sort = new Sort(new SortField[] {new SortField("date", SortField.STRING, true)});  // true 表示降序  false 表示升序
+			}else if("_hot".equals(sortOp)){
+				// TODO
+			}
+			TopDocs topDocs;
+			if(sort == null) {
+				 topDocs = indexSearcher.search(query, sumSize);
+				 System.out.println("=========null sort==========");
+			}else {
+				topDocs = indexSearcher.search(query, null, sumSize, sort);
+				System.out.println("==========date sort ===========");
+			}
+//			TopDocs topDocs = indexSearcher.search(query, sumSize);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
 			
 			int count = topDocs.totalHits;  // the totalCount of hit keywords
@@ -69,13 +85,11 @@ public class ArticleIndexDao {
 				String dTitle = doc.get("title");
 				String hlTitle = highlighter.getBestFragment(LuceneUtil.getAnalyzer(), "title", dTitle);
 				
-//				int bIndex = dTitle.length();
 				int eIndex = dTitle.length() + 150;
 				String dContent = doc.get("content");
 				if(dContent.length() > (eIndex + 255)) {
 					dContent = doc.get("content").substring(eIndex);
 				}
-//				String dContent = doc.get("content").substring(eIndex);
 				
 				String hlContent = highlighter.getBestFragment(LuceneUtil.getAnalyzer(), "title", dContent);
 				if(hlTitle!=null) {

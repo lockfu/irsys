@@ -10,15 +10,19 @@
 </head>
 <body>
     <form action="<%=request.getContextPath() %>/IndexSearchService" method="post">
-    	<input type="text" name="queryString" size="30" /> 
-    	<input type="submit" value="Search" />
+    	<input type="text" name="queryString" size="30" value="${queryString }"/> 
+    	<input type="button" value="Search" onclick="submit()" />
     </form>
-    <span>本次共搜索到：${ars.count }条记录</span>
+    
+    
+   <a href="<%=request.getContextPath() %>/IndexSearchService?queryString=${queryString}&curPage=${ars.currentPage}&sortOp=_time">时间</a> 
+   &nbsp;&nbsp;&nbsp;<a href="#">热度</a>
+   &nbsp;&nbsp;&nbsp; <span>本次共搜索到：${ars.count }条记录</span>
     
 	<c:forEach items="${ars.list }" var="a">
 		<div style="width: 100%;height: 100px;">
 			<div style="height: 20px;">
-				<a href=${a.url }>${a.title }</a>
+				<a href=${a.url }>${a.title }</a><span>${a.date }</span>
 			</div>
 			<div style="height: 80px;overflow: hidden;">
 				${a.content }
@@ -26,12 +30,12 @@
 		</div>
 	</c:forEach>
 	<br />
-		<a href="<%=request.getContextPath() %>/IndexSearchService?queryString=${queryString}&curPage=${(ars.currentPage - 1) <= 0 ? 1 : (ars.currentPage - 1)}">上一页</a>
+		<a href="<%=request.getContextPath() %>/IndexSearchService?curPage=${(ars.currentPage - 1) <= 0 ? 1 : (ars.currentPage - 1)}">上一页</a>
 		&nbsp;&nbsp;&nbsp;
 		<c:forEach begin="${ars.beginPageIndex }" end="${ars.endPageIndex }" var="i">
-			<a href="<%=request.getContextPath() %>/IndexSearchService?queryString=${queryString}&curPage=${i}">${i }</a>&nbsp;&nbsp;
+			<a href="<%=request.getContextPath() %>/IndexSearchService?curPage=${i}">${i }</a>&nbsp;&nbsp;
 		</c:forEach>
 		&nbsp;&nbsp;&nbsp;
-		<a href="<%=request.getContextPath() %>/IndexSearchService?queryString=${queryString}&curPage=${(ars.currentPage + 1) > ars.pageCount ? ars.pageCount : (ars.currentPage + 1)}">下一页</a>
+		<a href="<%=request.getContextPath() %>/IndexSearchService?curPage=${(ars.currentPage + 1) > ars.pageCount ? ars.pageCount : (ars.currentPage + 1)}">下一页</a>
 </body>
 </html>

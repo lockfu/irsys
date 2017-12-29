@@ -6,6 +6,7 @@ import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.document.Field.Store;
 
 import cn.ucas.irsys.domain.Article;
+import cn.ucas.irsys.domain.MltArticle;
 
 public class DocumentArticleUtil {
 	/**
@@ -21,6 +22,24 @@ public class DocumentArticleUtil {
 		article.setUrl(doc.get("url"));
 		article.setContent(doc.get("content"));
 		return article;
+	}
+	
+	/**
+	 * 将Docment转成Article
+	 * @param doc
+	 * @return
+	 */
+	public static MltArticle document2ArticleWithMltAs(Document doc,String mltIds) {
+		MltArticle mltArticle = new MltArticle();
+		Article a = mltArticle.getArticle();
+		a.setId(doc.get("id"));
+		a.setTitle(doc.get("title"));
+		a.setDate(doc.get("date"));
+		a.setUrl(doc.get("url"));
+		a.setContent(doc.get("content"));
+		mltArticle.setArticle(a);
+		mltArticle.setMltIds(mltIds);
+		return mltArticle;
 	}
 	
 	/**

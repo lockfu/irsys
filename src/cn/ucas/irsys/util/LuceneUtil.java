@@ -23,6 +23,7 @@ public class LuceneUtil {
 	public static int  pageSize = 10;
 	static {
 		try {
+//			directory = new RAMDirectory();
 			directory = FSDirectory.open(new File(GetGProperties.getGProperties().getProperty("finalIndexDir")));
 			analyzer = new IKAnalyzer();
 		} catch (Exception e) {

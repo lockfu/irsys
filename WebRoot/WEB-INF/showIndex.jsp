@@ -22,11 +22,16 @@
 	<c:forEach items="${ars.list }" var="a">
 		<div style="width: 100%;height: 100px;">
 			<div style="height: 20px;">
-				<a href=${a.url }>${a.title }</a><span>${a.date }</span>
+				<a href=${a.article.url }>${a.article.title }</a><span>${a.article.date }</span>
 			</div>
-			<div style="height: 80px;overflow: hidden;">
-				${a.content }
+			<div style="height: 100px;overflow: hidden;">
+				${a.article.content } &nbsp;&nbsp;&nbsp;&nbsp;
+				<c:if test="${a.mltIds != null }">
+					
+					<a href="<%=request.getContextPath() %>/ShowSimilarDoc?mltIds=${a.mltIds}">更多相关文档</a>
+				</c:if>
 			</div>
+		
 		</div>
 	</c:forEach>
 	<br />

@@ -60,7 +60,7 @@ public class IndexSearchService extends HttpServlet {
 		if(null == queryString  || queryString.length() <0 || queryString.equals("") ) {
 			request.getRequestDispatcher("./index.jsp").forward(request, response);
 		}else {
-			QueryResult queryResult = aDao.search(queryString, curPage, GetGProperties.pageSize,sortOp);
+			QueryResult queryResult = aDao.search1(queryString, curPage, GetGProperties.pageSize,sortOp);
 			request.setAttribute("queryString", queryString);
 			request.setAttribute("ars", queryResult);
 			request.getRequestDispatcher("./WEB-INF/showIndex.jsp").forward(request, response);

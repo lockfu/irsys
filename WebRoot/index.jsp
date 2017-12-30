@@ -1,17 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<center>
-	    <form action="<%=request.getContextPath() %>/IndexSearchService" method="post">
-	    	<input type="text" name="queryString" size="30" /> 
-	    	<input type="submit" value="Search" />
-	    </form>
-    </center>
-</body>
-</html>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+	response.sendRedirect(request.getContextPath() + "/HomeServlet");
+%>

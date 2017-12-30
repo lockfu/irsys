@@ -1,9 +1,15 @@
 package cn.ucas.irsys.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.document.Field.Store;
+import org.junit.Test;
+
+import com.google.gson.Gson;
 
 import cn.ucas.irsys.domain.Article;
 import cn.ucas.irsys.domain.MltArticle;

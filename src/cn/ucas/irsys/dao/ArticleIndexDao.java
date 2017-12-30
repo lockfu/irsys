@@ -177,7 +177,13 @@ public class ArticleIndexDao {
 		}
 	}
 	
-	
+	/**
+	 *  进行索引
+	 * @param queryString  要查询的字符串
+	 * @param first   从结果集中的第几个开始
+	 * @param max     最多返回多少条记录
+	 * @return     返回记录结果 + 符合条件的总数量
+	 */
 	public QueryResult search1(String queryString,int curPage,int pageSize,String sortOp) {
 		IndexSearcher indexSearcher = null;
 		List<MltArticle> lists = new ArrayList<MltArticle>();
@@ -188,7 +194,6 @@ public class ArticleIndexDao {
 			Query query = queryParser.parse(queryString);
 			
 			IndexReader reader = IndexReader.open(LuceneUtil.getDirectory());
-			
 			
 			// 设置相似文档
 			indexSearcher = new IndexSearcher(reader);
@@ -227,14 +232,11 @@ public class ArticleIndexDao {
 			// 3. do something address
 			for(int i = curPageSize; i<endIndex;i++) {
 				int docId = scoreDocs[i].doc;  // 要操作的文档id
-				
-				
-				
 				String mltIds = getMltDocIds(mlt, docId, indexSearcher);
 				
 				Document doc = indexSearcher.doc(docId);
 				// 高亮显示
-				highLighter(doc, query);
+				doc = highLighter(doc, query);
 				
 				lists.add(DocumentArticleUtil.document2ArticleWithMltAs(doc,mltIds));
 				

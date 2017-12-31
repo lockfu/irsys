@@ -51,7 +51,6 @@ public class IndexSearchService extends HttpServlet {
 		}
 		
 		
-		
 		int curPage = 1;
 		if(curSPage!=null) {
 			curPage = Integer.parseInt(curSPage);

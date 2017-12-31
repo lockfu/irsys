@@ -1,7 +1,9 @@
 package cn.ucas.irsys.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -20,6 +22,8 @@ public class DocumentArticleUtil {
 	 * @param doc
 	 * @return
 	 */
+	private static int monCount = 12;
+	private static int dayCount = 28;
 	public static Article document2Article(Document doc) {
 		Article article = new Article();
 		article.setId(doc.get("id"));

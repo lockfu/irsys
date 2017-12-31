@@ -15,8 +15,8 @@
     </form>
     
     
-   <a href="<%=request.getContextPath() %>/IndexSearchService?queryString=${queryString}&curPage=${ars.currentPage}&sortOp=_time">时间</a> 
-   &nbsp;&nbsp;&nbsp;<a href="#">热度</a>
+   <a href="<%=request.getContextPath() %>/IndexSearchService?curPage=${ars.currentPage}&sortOp=_time">时间</a> 
+   &nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath() %>/IndexSearchService?curPage=${ars.currentPage}&sortOp=_hot">热度</a>
    &nbsp;&nbsp;&nbsp; <span>本次共搜索到：${ars.count }条记录</span>
     
 	<c:forEach items="${ars.list }" var="a">
@@ -24,7 +24,7 @@
 			<div style="height: 20px;">
 				<a href=${a.article.url }>${a.article.title }</a><span>${a.article.date }</span>
 			</div>
-			<div style="height: 100px;overflow: hidden;">
+			<div style="height: 100px;overflow: hidden;font-size: 12px;">
 				${a.article.content } &nbsp;&nbsp;&nbsp;&nbsp;
 				<c:if test="${a.mltIds != null }">
 					

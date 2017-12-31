@@ -50,11 +50,11 @@ public class ResponseDataServlet extends HttpServlet {
 			if(count > 6) {
 				break;
 			}
-			System.out.println("======="+e.text()+"==========" + " ================"+url+"==============");
+//			System.out.println("======="+e.text()+"==========" + " ================"+url+"==============");
 		}
 		Gson gson = new Gson();
 		String gString = gson.toJson(hotA);
-		System.out.println(gString);
+//		System.out.println(gString);
 		out.print(gString);
 		out.flush();
 		out.close();

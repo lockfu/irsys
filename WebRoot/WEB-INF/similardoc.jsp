@@ -18,7 +18,7 @@
 			<div style="height: 20px;">
 				<a href=${a.url }>${a.title }</a><span>${a.date }</span>
 			</div>
-			<div style="height: 100px;overflow: hidden;">
+			<div style="height: 100px;overflow: hidden; font-size: 12px;">
 				${a.content } &nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
 		</div>
